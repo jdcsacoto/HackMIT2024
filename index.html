@@ -64,9 +64,6 @@
 <body>
 
     <py-script>
-        x = 10
-        def helloWorld():
-            return x
     </py-script>
 
     <button id="generate" class="top-right-button">Generate Path</button>
@@ -130,13 +127,8 @@
 
         document.getElementById("generate").addEventListener("click", async () => {
             await window.pyodide;
-            console.log("HERE")
-            const result = await window.pyodide.runPythonAsync('helloWorld()');
-            console.log(result)
+        })
 
-
-
-       })
     </script>
 </body>
 </html>
