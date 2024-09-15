@@ -1,14 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset = "UTF-8">
-    <meta name = "viewport" content="width=device-width, initial-scale=1.0">
-    <link rel = "stylesheet" href = "https://pyscript.net/latest/pyscript.css" />
-    <link rel = "stylesheet" href = "styles.css"/>
-    <link rel = "stylesheet" href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity = "sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin = ""/>
-    <script src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script defer src = "https://pyscript.net/latest/pyscript.js"></script>
 
+<head>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <style>
         body, html {
             margin: 0;
@@ -31,17 +27,18 @@
             top: 15px;
             right: 20px;
             padding: 10px 20px;
-            background-color: #007bff;
+            background-color: #007bff; /* Regular blue */
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-            z-index: 10;
+            transition: background-color 0.3s ease; /* Smooth transition for hover */
+            z-index: 10; /* Ensure button is above other elements */
         }
 
+        /* Darker blue on hover */
         .top-right-button:hover {
-            background-color: #0056b3;
+            background-color: #0056b3; /* Darker blue on hover */
         }
 
         .header {
@@ -55,7 +52,7 @@
             font-size: 32px;
             font-weight: bold;
             text-align: center;
-            margin: 0 20px;
+            margin: 0 20px; /* Space between inputs and title */
         }
 
         input[type="text"] {
@@ -70,25 +67,21 @@
 
 </head>
 
-
 <body>
 
-    <py-script>
-        py_value = "Hello from PyScript!"
-    </py-script>
+    <button id = "generate" class="top-right-button">Generate Path</button>
 
-    <button id = "generate" class = "top-right-button">Generate Path</button>
-
+    <!-- Container that centers content on the page -->
     <div class="container">
+        <!-- Header with centered title and input boxes -->
         <div class="header">
-            <input id = "inp1" type = "text" placeholder = "Starting Position">
+            <input id = "inp1" type="text" placeholder="Starting Position">
             <div class="title">CampusMap</div>
-            <input id = "inp2" type = "text" placeholder = "Desination (Room)">
+            <input id = "inp2" type="text" placeholder="Desination (Room)">
         </div>
     </div>
 
-
-    <div id = "map" style = "width: 100%; height: 100%;"></div>
+    <div id="map" style="width: 100%; height: 100%;"></div>
 
     <script>
         const map = L.map('map').setView([42.3575, -71.0933333], 18);
@@ -97,21 +90,23 @@
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
+        document.getElementById("generate").addEventListener('click', function() {
+            var inp1 = document.getElementById("inp1").value;
+            var inp2 = document.getElementById("inp2").value;
+
+
+        });
+
         function onClick() {
             document.getElementById("inp1").value = this.getPopup().getContent();
             this.openPopup();
         }
 
-        function markerFactory(coordArray) {x
+        function markerFactory(coordArray) {
             var ctr = 1;
             for (let [lat, long] of coordArray) {
                 L.marker([lat, long]).addTo(map).bindPopup("Entrance " + ctr++).on("click", onClick);
             }
-        }
-
-        function onMapClick(e) {
-            var popup = L.popup()
-            popup.setLatLng(e.latlng).setContent("Please select one of the provided entrances.").openOn(map);
         }
 
         markerFactory([[42.36135126457657, -71.09148359339527],
@@ -131,18 +126,18 @@
                        [42.36027470352312, -71.09270056090568],
                        [42.36016943761353, -71.09303376894324],
                        [42.36011412833615, -71.093224518472],
-                       [42.360536975445804, -71.09361809028452]
-                    ]);
-        map.on('click', onMapClick);
+                       [42.360536975445804, -71.09361809028452],
 
-        document.getElementById("generate").addEventListener('click', function() {
-            var inp1 = document.getElementById("inp1").value;
-            var inp2 = document.getElementById("inp2").value;
-        });
+                    ]);
+
+        function onMapClick(e) {
+            var popup = L.popup()
+            popup.setLatLng(e.latlng).setContent("Please select one of the provided entrances.").openOn(map);
+        }
+
+        map.on('click', onMapClick);
 
     </script>
 
 </body>
-
-
 </html>
