@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset = "UTF-8">
-    <meta name = "viewport" content="width=device-width, initial-scale=1.0">
-    <link rel = "stylesheet" href = "https://pyscript.net/latest/pyscript.css" />
-    <link rel = "stylesheet" href = "styles.css"/>
-    <link rel = "stylesheet" href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity = "sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin = ""/>
-    <script src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script defer src = "https://pyscript.net/latest/pyscript.js"></script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
     <style>
         body, html {
             margin: 0;
@@ -16,7 +14,6 @@
             height: 100%;
             font-family: 'Courier New', monospace;
         }
-
         .container {
             display: flex;
             justify-content: center;
@@ -25,7 +22,6 @@
             position: relative;
             margin-top: 15px;
         }
-
         .top-right-button {
             position: absolute;
             top: 15px;
@@ -39,25 +35,21 @@
             transition: background-color 0.3s ease;
             z-index: 10;
         }
-
         .top-right-button:hover {
             background-color: #0056b3;
         }
-
         .header {
             display: flex;
             align-items: center;
             justify-content: center;
             width: 100%;
         }
-
         .title {
             font-size: 32px;
             font-weight: bold;
             text-align: center;
             margin: 0 20px;
         }
-
         input[type="text"] {
             padding: 10px;
             border: 1px solid #ccc;
@@ -69,30 +61,29 @@
     </style>
 
 </head>
-
-
 <body>
 
     <py-script>
-        py_value = "Hello from PyScript!"
+        x = 10
+        def helloWorld():
+            return x
     </py-script>
 
-    <button id = "generate" class = "top-right-button">Generate Path</button>
+    <button id="generate" class="top-right-button">Generate Path</button>
 
     <div class="container">
         <div class="header">
-            <input id = "inp1" type = "text" placeholder = "Starting Position">
+            <input id="inp1" type="text" placeholder="Starting Position">
             <div class="title">CampusMap</div>
-            <input id = "inp2" type = "text" placeholder = "Desination (Room)">
+            <input id="inp2" type="text" placeholder="Destination (Room)">
         </div>
     </div>
 
-
-    <div id = "map" style = "width: 100%; height: 100%;"></div>
+    <div id="map" style="width: 100%; height: 100%;"></div>
 
     <script>
         const map = L.map('map').setView([42.3575, -71.0933333], 18);
-        const tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
@@ -102,47 +93,50 @@
             this.openPopup();
         }
 
-        function markerFactory(coordArray) {x
-            var ctr = 1;
+        function markerFactory(coordArray) {
+            let ctr = 1;
             for (let [lat, long] of coordArray) {
                 L.marker([lat, long]).addTo(map).bindPopup("Entrance " + ctr++).on("click", onClick);
             }
         }
 
         function onMapClick(e) {
-            var popup = L.popup()
-            popup.setLatLng(e.latlng).setContent("Please select one of the provided entrances.").openOn(map);
+            L.popup()
+                .setLatLng(e.latlng)
+                .setContent("Please select one of the provided entrances.")
+                .openOn(map);
         }
 
-        markerFactory([[42.36135126457657, -71.09148359339527],
-                       [42.3609621868272, -71.09126177704184],
-                       [42.36071403361931, -71.09111459048955],
-                       [42.36158069981416, -71.09140394701969],
-                       [42.361705588752386, -71.09128563402082],
-                       [42.36164136018951, -71.09125907395986],
-                       [42.361512902866814, -71.09123734300088],
-                       [42.36127026054073, -71.09101278975818],
-                       [42.36124706673751, -71.0918820281173],
-                       [42.361177485283676, -71.09207277764605],
-                       [42.3610169124038, -71.09192307548423],
-                       [42.360651161534435, -71.09161401295664],
-                       [42.361275612952696, -71.0920341448301],
-                       [42.36054589624899, -71.0923963274797],
-                       [42.36027470352312, -71.09270056090568],
-                       [42.36016943761353, -71.09303376894324],
-                       [42.36011412833615, -71.093224518472],
-                       [42.360536975445804, -71.09361809028452]
-                    ]);
-        map.on('click', onMapClick);
+        markerFactory([
+            [42.36135126457657, -71.09148359339527],
+            [42.3609621868272, -71.09126177704184],
+            [42.36071403361931, -71.09111459048955],
+            [42.36158069981416, -71.09140394701969],
+            [42.361705588752386, -71.09128563402082],
+            [42.36164136018951, -71.09125907395986],
+            [42.361512902866814, -71.09123734300088],
+            [42.36127026054073, -71.09101278975818],
+            [42.36124706673751, -71.0918820281173],
+            [42.361177485283676, -71.09207277764605],
+            [42.3610169124038, -71.09192307548423],
+            [42.360651161534435, -71.09161401295664],
+            [42.361275612952696, -71.0920341448301],
+            [42.36054589624899, -71.0923963274797],
+            [42.36027470352312, -71.09270056090568],
+            [42.36016943761353, -71.09303376894324],
+            [42.36011412833615, -71.093224518472],
+            [42.360536975445804, -71.09361809028452]
+        ]);
 
-        document.getElementById("generate").addEventListener('click', function() {
-            var inp1 = document.getElementById("inp1").value;
-            var inp2 = document.getElementById("inp2").value;
-        });
+        document.getElementById("generate").addEventListener("click", async () => {
+            await window.pyodide;
+            console.log("HERE")
+            const result = await window.pyodide.runPythonAsync('helloWorld()');
+            console.log(result)
 
+
+
+       })
     </script>
-
 </body>
-
-
 </html>
